@@ -1,0 +1,10 @@
+{
+  "name": "supabase-rls-guard",
+  "version": "1.0.0",
+  "description": "Stop your AI coding agent from shipping an open Supabase database: hooks that block tables without Row Level Security, write-for-everyone policies and secret keys in browser code, plus a project scanner, a live SQL check, an RLS auditor agent and fix recipes.",
+  "author": { "name": "Mehdi Golzari" },
+  "homepage": "https://github.com/mgmehdiforme/vibe-code-rescue/tree/main/episodes/03-supabase-rls-guard",
+  "repository": "https://github.com/mgmehdiforme/vibe-code-rescue",
+  "license": "MIT",
+  "keywords": ["supabase", "rls", "row-level-security", "lovable", "security", "postgres", "claude-code", "vibe-coding"]
+}
