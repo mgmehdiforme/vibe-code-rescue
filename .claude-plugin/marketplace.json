@@ -1,0 +1,15 @@
+{
+  "name": "vibe-code-rescue",
+  "owner": { "name": "Mehdi Golzari" },
+  "metadata": {
+    "description": "One free Claude Code plugin per Vibe Code Rescue episode: tools that take AI-built apps from prototype to production."
+  },
+  "plugins": [
+    {
+      "name": "supabase-rls-guard",
+      "source": "./episodes/03-supabase-rls-guard",
+      "description": "Episode 3: block tables without Row Level Security, write-for-everyone policies and secret keys in browser code; scan and audit your Supabase app.",
+      "version": "1.0.0"
+    }
+  ]
+}
