@@ -90,7 +90,7 @@ select tablename from pg_tables where schemaname = 'public' and not rowsecurity;
 
 ## 🎬 The episode
 
-**Video:** <YOUTUBE_URL>
+**Video:** https://www.youtube.com/watch?v=Mpbfc2Rt0CY
 **Sources:** [Cybernews](https://cybernews.com/security/lovable-ai-apps-expose-personal-information/) · [UpGuard](https://www.upguard.com/labs/research/everything-everywhere-systemic-data-exposure-in-supabase-apps) · [The Register](https://www.theregister.com/2026/02/27/lovable_app_vulnerabilities) · [Supabase RLS docs](https://supabase.com/docs/guides/database/postgres/row-level-security)
 
 ## ❓ FAQ
