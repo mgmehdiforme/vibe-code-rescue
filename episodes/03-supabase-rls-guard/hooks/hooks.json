@@ -1,0 +1,9 @@
+{
+  "description": "supabase-rls-guard: block tables without RLS, write-for-everyone policies and secret keys in browser code",
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Write|Edit|MultiEdit",
+        "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/guard.py\"", "timeout": 10 } ] }
+    ]
+  }
+}
