@@ -69,11 +69,11 @@ python3 scripts/scan.py . --base origin/main
 python3 scripts/scan.py . --snapshot     # what is skipped, focused or always-true today
 ```
 
-The 2-minute check with plain git:
+The 2-minute check with plain git (on your feature branch, after committing):
 
 ```bash
-git diff origin/main -- '*test*' '*spec*' | grep -E '^-.*(assert|expect|Assert\.|should)'
-git diff origin/main -- '*test*' '*spec*' | grep -E '^\+.*(\.skip|xit\(|\.only|@pytest\.mark\.skip|Skip *=|t\.Skip|#\[ignore\]|@Disabled)'
+git diff origin/main...HEAD -- '*test*' '*spec*' | grep -E '^-.*(assert|expect|Assert\.|should)'
+git diff origin/main...HEAD -- '*test*' '*spec*' | grep -E '^\+.*(\.skip|x(it|describe)\(|\.only|@pytest\.mark\.(skip|xfail)|Skip *=|t\.Skip|#\[ignore\]|@Disabled|@Ignore)'
 ```
 
 Every line either command prints needs a reason a human agreed to.

@@ -37,9 +37,9 @@ Real-world basis (cite this, do not invent more):
 2. Snapshot: `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/scan.py" . --snapshot` lists skipped, focused, empty and always-true tests today.
 3. Manual 2-minute check without the plugin:
    ```bash
-   git diff origin/main --stat -- '*test*' '*spec*'
-   git diff origin/main -- '*test*' '*spec*' | grep -E '^-.*(assert|expect|Assert\.|should)'
-   git diff origin/main -- '*test*' '*spec*' | grep -E '^\+.*(\.skip|xit\(|\.only|@pytest\.mark\.skip|Skip *=|t\.Skip|#\[ignore\]|@Disabled)'
+   git diff origin/main...HEAD --stat -- '*test*' '*spec*'
+   git diff origin/main...HEAD -- '*test*' '*spec*' | grep -E '^-.*(assert|expect|Assert\.|should)'
+   git diff origin/main...HEAD -- '*test*' '*spec*' | grep -E '^\+.*(\.skip|x(it|describe)\(|\.only|@pytest\.mark\.(skip|xfail)|Skip *=|t\.Skip|#\[ignore\]|@Disabled|@Ignore)'
    ```
    Every line printed by the second and third command needs a reason.
 
