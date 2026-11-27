@@ -90,7 +90,7 @@ Every line either command prints needs a reason a human agreed to.
 
 ## 🎬 The episode
 
-**Video:** <YOUTUBE_URL>
+**Video:** https://www.youtube.com/watch?v=kq4U4h_gpwQ
 **Source:** [Anthropic, "Migrating the Messages API to Rust"](https://www.anthropic.com/research/migrating-api-to-rust)
 
 ## ❓ FAQ
