@@ -1,0 +1,2 @@
+# Fixture strings in the plugin's own tests look like weakened tests on purpose.
+episodes/04-test-integrity-guard/tests/*

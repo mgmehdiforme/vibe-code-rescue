@@ -27,6 +27,7 @@ Then install the plugin for the episode you need (below).
 
 | # | Episode | Tool | Install |
 |---|---|---|---|
+| 4 | [Green tests can lie: 100+ weakened assertions in an AI-assisted port](episodes/04-test-integrity-guard) | **test-integrity-guard**: asks before your agent removes or loosens assertions, skips tests or silences the test run; scans any diff in CI | `/plugin install test-integrity-guard@vibe-code-rescue` |
 | 3 | [Lovable apps leaked passports and 200K messages](episodes/03-supabase-rls-guard) · [▶ video](https://www.youtube.com/watch?v=Mpbfc2Rt0CY) | **supabase-rls-guard**: blocks tables without Row Level Security and secret keys in browser code; scans and audits your Supabase app | `/plugin install supabase-rls-guard@vibe-code-rescue` |
 | 2 | [2 million AI prompts had bait keys](episodes/02-secrets-in-prompts) | **prompt-secret-guard**: keeps API keys out of LLM prompts | [own repo](https://github.com/mgmehdiforme/prompt-secret-guard) |
 

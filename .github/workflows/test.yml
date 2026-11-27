@@ -9,3 +9,5 @@ jobs:
         with: { python-version: "3.12" }
       - name: Episode 3 - supabase-rls-guard
         run: python3 episodes/03-supabase-rls-guard/tests/test_rls.py
+      - name: Episode 4 - test-integrity-guard
+        run: python3 episodes/04-test-integrity-guard/tests/test_guard.py

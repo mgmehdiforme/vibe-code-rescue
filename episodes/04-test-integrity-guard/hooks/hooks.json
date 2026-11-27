@@ -1,0 +1,9 @@
+{
+  "description": "test-integrity-guard: ask before an edit or command makes your tests check less",
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Write|Edit|MultiEdit|Bash",
+        "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/guard.py\"", "timeout": 10 } ] }
+    ]
+  }
+}

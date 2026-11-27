@@ -1,0 +1,10 @@
+{
+  "name": "test-integrity-guard",
+  "version": "1.0.0",
+  "description": "Stop your AI coding agent from turning red tests green by weakening them: a hook that asks before any edit removes or loosens assertions, skips tests or makes the test run pass silently, plus a git-diff scanner for CI, a test auditor agent and fix recipes.",
+  "author": { "name": "Mehdi Golzari" },
+  "homepage": "https://github.com/mgmehdiforme/vibe-code-rescue/tree/main/episodes/04-test-integrity-guard",
+  "repository": "https://github.com/mgmehdiforme/vibe-code-rescue",
+  "license": "MIT",
+  "keywords": ["testing", "tests", "assertions", "ci", "code-review", "claude-code", "vibe-coding", "ai-agents"]
+}
