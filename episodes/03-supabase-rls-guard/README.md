@@ -39,11 +39,14 @@ You need `python3` 3.8+ and nothing else: no pip, no npm, no API key, no databas
 | When your agent… | What happens |
 |---|---|
 | writes a migration that creates a table without `enable row level security` | **Blocked.** It's told to enable RLS in the same migration and add a policy per operation. |
+| sends the same SQL through the Supabase MCP (`apply_migration` or `execute_sql`) | **Blocked** the same way. Each call is checked on its own, so create the table and enable RLS in one call. |
 | writes a policy that lets anyone insert / update / delete with `using (true)` | **Blocked.** It's told to restrict it to the row owner. |
 | puts a `service_role` JWT or `sb_secret_` key in browser code, or a secret in a `VITE_` / `NEXT_PUBLIC_` / `EXPO_PUBLIC_` variable | **Blocked.** That key bypasses RLS; it belongs in an Edge Function or backend. |
 | creates a table that is meant to be public (e.g. `countries`) | Add `-- rls-guard: allow` to that SQL file, or a glob to `.rlsguardignore`. |
 
 Set `RLS_GUARD_MODE=ask` to get a prompt instead of a block, or `off` to disable.
+
+**Not covered:** SQL run through the shell (`psql -c "create table …"`) or a dashboard. Run `/rls-check` after those.
 
 ## 🔍 Audit your app
 
@@ -104,7 +107,7 @@ select tablename from pg_tables where schemaname = 'public' and not rowsecurity;
 
 ```
 .claude-plugin/plugin.json      plugin manifest
-hooks/hooks.json                PreToolUse hook on Write | Edit | MultiEdit
+hooks/hooks.json                PreToolUse hook on Write | Edit | MultiEdit + Supabase MCP SQL tools
 scripts/guard.py                the hook
 scripts/scan.py                 project scanner (CLI + CI)
 scripts/rls_lib.py              shared checks

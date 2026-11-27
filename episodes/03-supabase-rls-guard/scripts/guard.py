@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""supabase-rls-guard hook (PreToolUse on Write | Edit | MultiEdit).
+"""supabase-rls-guard hook (PreToolUse on Write | Edit | MultiEdit and the Supabase MCP SQL tools).
 
 Stops Claude Code from writing the mistakes behind the Lovable/Supabase leaks:
   1. A SQL file that creates a table without enabling Row Level Security.
@@ -13,6 +13,7 @@ Allowlist: .rlsguardignore in the project root (one glob per line) or a
 import fnmatch
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -20,6 +21,9 @@ from rls_lib import analyze_sql, client_secret_findings, is_client_file, missing
 
 MODE = os.environ.get("RLS_GUARD_MODE", "block").lower()
 FOOTER = " (supabase-rls-guard; add `-- rls-guard: allow` for an intentional public table, or set RLS_GUARD_MODE=ask)"
+# Supabase MCP tools that run SQL directly. The server prefix depends on how the MCP was installed
+# (mcp__supabase__..., mcp__claude_ai_Supabase__..., mcp__plugin_x_supabase__...), so match it loosely.
+MCP_SQL_TOOL = re.compile(r"^mcp__.*supabase.*__(apply_migration|execute_sql)$", re.IGNORECASE)
 
 
 def allowlist():
@@ -80,13 +84,18 @@ def main():
         return
     tool = event.get("tool_name", "")
     inp = event.get("tool_input", {}) or {}
-    path = inp.get("file_path", "")
-    if tool not in ("Write", "Edit", "MultiEdit") or not path:
-        return
-    rel = os.path.relpath(path, os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd())
-    if any(fnmatch.fnmatch(rel, g) or fnmatch.fnmatch(path, g) for g in allowlist()):
-        return
-    found = problems(path, resulting_text(tool, inp))
+    if MCP_SQL_TOOL.match(tool):
+        # SQL sent straight to the database: check it like a migration file. Each call is checked on its
+        # own, so a table must be created and get RLS in the same call.
+        found = problems(f"{inp.get('name') or 'mcp'}.sql", inp.get("query", "") or "")
+    else:
+        path = inp.get("file_path", "")
+        if tool not in ("Write", "Edit", "MultiEdit") or not path:
+            return
+        rel = os.path.relpath(path, os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd())
+        if any(fnmatch.fnmatch(rel, g) or fnmatch.fnmatch(path, g) for g in allowlist()):
+            return
+        found = problems(path, resulting_text(tool, inp))
     if not found:
         return
     print(json.dumps({"hookSpecificOutput": {

@@ -115,6 +115,30 @@ class HookTests(unittest.TestCase):
     def test_ignores_other_tools(self):
         self.assertEqual(hook("Read", {"file_path": "/p/m.sql"}), "allow")
 
+    def test_blocks_mcp_sql_without_rls(self):
+        for tool in ("mcp__supabase__apply_migration", "mcp__supabase__execute_sql", "mcp__claude_ai_Supabase__apply_migration"):
+            self.assertEqual(hook(tool, {"project_id": "x", "name": "init", "query": "create table notes(id int);"}), "deny", tool)
+
+    def test_allows_mcp_sql_with_rls(self):
+        sql = "create table notes(id int);\nalter table notes enable row level security;"
+        self.assertEqual(hook("mcp__supabase__apply_migration", {"project_id": "x", "name": "init", "query": sql}), "allow")
+        self.assertEqual(hook("mcp__supabase__execute_sql", {"project_id": "x", "query": "select * from notes;"}), "allow")
+
+    def test_blocks_mcp_risky_policy_and_allow_comment(self):
+        self.assertEqual(hook("mcp__supabase__execute_sql", {"query": 'create policy "w" on posts for update using (true);'}), "deny")
+        self.assertEqual(hook("mcp__supabase__apply_migration", {"query": "-- rls-guard: allow\ncreate table countries(id int);"}), "allow")
+
+    def test_ignores_other_mcp_tools(self):
+        self.assertEqual(hook("mcp__supabase__list_tables", {"project_id": "x"}), "allow")
+
+    def test_hooks_json_matcher_covers_mcp_tools(self):
+        import re
+        with open(os.path.join(HERE, "..", "hooks", "hooks.json")) as f:
+            matcher = json.load(f)["hooks"]["PreToolUse"][0]["matcher"]
+        for tool in ("Write", "Edit", "MultiEdit", "mcp__supabase__apply_migration", "mcp__claude_ai_Supabase__execute_sql"):
+            self.assertTrue(re.fullmatch(matcher, tool), tool)
+        self.assertFalse(re.fullmatch(matcher, "mcp__supabase__list_tables"))
+
 
 class ScanTests(unittest.TestCase):
     def test_scan_exit_codes(self):

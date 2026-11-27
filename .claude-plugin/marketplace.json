@@ -17,7 +17,7 @@
       "name": "supabase-rls-guard",
       "source": "./episodes/03-supabase-rls-guard",
       "description": "Episode 3: block tables without Row Level Security, write-for-everyone policies and secret keys in browser code; scan and audit your Supabase app.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }
